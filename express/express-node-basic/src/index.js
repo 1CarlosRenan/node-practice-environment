@@ -18,7 +18,10 @@ app.post('/projects', function (request, response) {
   ])
 })
 
-app.put('/projects/:id', function (request, response) {
+app.put('/projects/:id/:name', function (request, response) {
+  const { id, name } = request.params
+  console.log(id, name)
+
   return response.json([
     'Projeto 1',
     'Projeto 2'
