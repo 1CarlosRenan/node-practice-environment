@@ -23,7 +23,7 @@ app.post('/projects', function (request, response) {
 })
 
 app.put('/projects/:id', function (request, response) {
-  const { id } = request.body
+  const { id } = request.params
   const { name, owner } = request.body
 
   if (!name || !owner) {
@@ -46,10 +46,17 @@ app.put('/projects/:id', function (request, response) {
 })
 
 app.delete('/projects/:id', function (request, response) {
-  return response.json([
-    'Projeto 1',
-    'Projeto 2'
-  ])
+  const { id } = request.params
+
+  const projectIndex = projects.findIndex(p => p.id === id)
+
+  if (projectIndex < 0) {
+    return response.status(404).json({ error: 'Project not found' })
+  }
+
+  projects.splice(projectIndex, 1)
+
+  return response.status(204).send()
 })
 
 app.listen(3000, () => {
